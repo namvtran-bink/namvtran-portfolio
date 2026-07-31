@@ -1,0 +1,33 @@
+{
+  "locale": "en",
+  "name": "Nam V. Tran",
+  "role": "Software Developer",
+  "introduction": "I build thoughtful software and keep a record of the lessons that shaped how I work.",
+  "biography": "[Replace with a 3–5 sentence personal story: where your curiosity for software began, what kind of problems energize you, and how your perspective has evolved. Keep employer-specific details public and non-confidential.]",
+  "values": [
+    {
+      "title": "Understand before changing",
+      "description": "I separate assumptions from evidence and look for the smallest useful experiment."
+    },
+    {
+      "title": "Own the outcome",
+      "description": "Good engineering connects technical decisions to the experience people actually have."
+    },
+    {
+      "title": "Leave a clear trail",
+      "description": "I value decisions, documentation, and systems that help the next person move with confidence."
+    }
+  ],
+  "interests": [
+    "Product engineering",
+    "Complex interface architecture",
+    "Performance",
+    "Developer experience"
+  ],
+  "links": {
+    "github": "https://github.com/",
+    "linkedin": "https://www.linkedin.com/",
+    "email": "hello@example.com"
+  },
+  "availability": "Open to thoughtful conversations and knowledge sharing."
+}

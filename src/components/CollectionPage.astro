@@ -1,0 +1,121 @@
+---
+import { ArrowUpRight } from "@lucide/astro";
+import BaseLayout from "../layouts/BaseLayout.astro";
+import { getPublicEntries, getPublishedWriting } from "../lib/content";
+import { pathFor, ui, type Locale } from "../lib/i18n";
+
+interface Props {
+  locale: Locale;
+  type: "journey" | "work" | "writing";
+}
+const { locale, type } = Astro.props;
+const t = ui[locale];
+const entries =
+  type === "writing"
+    ? await getPublishedWriting(locale)
+    : type === "journey"
+      ? await getPublicEntries("journey", locale)
+      : await getPublicEntries("work", locale);
+type DisplayEntry = {
+  id: string;
+  title: string;
+  meta?: string;
+  description: string;
+};
+const displayEntries: DisplayEntry[] = entries.map((entry) => {
+  if (type === "journey") {
+    const data =
+      entry.data as import("astro:content").CollectionEntry<"journey">["data"];
+    return {
+      id: entry.id,
+      title: data.title,
+      meta: data.period,
+      description: data.summary,
+    };
+  }
+  if (type === "work") {
+    const data =
+      entry.data as import("astro:content").CollectionEntry<"work">["data"];
+    return {
+      id: entry.id,
+      title: data.title,
+      description: data.generalProblem,
+    };
+  }
+  const data =
+    entry.data as import("astro:content").CollectionEntry<"writing">["data"];
+  return {
+    id: entry.id,
+    title: data.title,
+    meta: data.publishedAt.toLocaleDateString(
+      locale === "vi" ? "vi-VN" : "en-US",
+      { dateStyle: "medium" },
+    ),
+    description: data.description,
+  };
+});
+const copy = {
+  en: {
+    journey: [
+      "JOURNEY",
+      "The changes in judgment, ownership, and craft I want to remember.",
+    ],
+    work: [
+      "WORK",
+      "Privacy-safe case studies centered on reasoning, trade-offs, and lessons.",
+    ],
+    writing: [
+      "WRITING",
+      "Notes about engineering craft, product thinking, and changing my mind.",
+    ],
+  },
+  vi: {
+    journey: [
+      "HÀNH TRÌNH",
+      "Những thay đổi trong tư duy, trách nhiệm và tay nghề mình muốn ghi nhớ.",
+    ],
+    work: [
+      "CÔNG VIỆC",
+      "Case study an toàn để chia sẻ, tập trung vào tư duy, đánh đổi và bài học.",
+    ],
+    writing: [
+      "BÀI VIẾT",
+      "Ghi chép về kỹ nghệ phần mềm, tư duy sản phẩm và những lần mình thay đổi quan điểm.",
+    ],
+  },
+} as const;
+const [title, intro] = copy[locale][type];
+---
+
+<BaseLayout {locale} title={title} description={intro}>
+  <header class="page-hero section-shell reveal">
+    <p class="eyebrow">{type}</p><h1>{title}</h1><p>{intro}</p>
+  </header>
+  <section class="archive section-shell">
+    {
+      displayEntries.length ? (
+        displayEntries.map((entry, index) => (
+          <a
+            href={pathFor(locale, `/${type}/${entry.id}`)}
+            class="archive-card reveal"
+          >
+            <span>{String(index + 1).padStart(2, "0")}</span>
+            <div>
+              {entry.meta && <p>{entry.meta}</p>}
+              <h2>{entry.title}</h2>
+              <p>{entry.description}</p>
+            </div>
+            <ArrowUpRight aria-hidden="true" />
+          </a>
+        ))
+      ) : (
+        <div class="empty-state">
+          <>
+            <h2>{t.emptyTitle}</h2>
+            <p>{t.emptyBody}</p>
+          </>
+        </div>
+      )
+    }
+  </section>
+</BaseLayout>

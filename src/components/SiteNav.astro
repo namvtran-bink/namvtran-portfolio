@@ -1,0 +1,53 @@
+---
+import {
+  House,
+  Route,
+  BriefcaseBusiness,
+  NotebookPen,
+  UserRound,
+} from "@lucide/astro";
+import { pathFor, otherLocalePath, ui, type Locale } from "../lib/i18n";
+
+interface Props {
+  locale: Locale;
+  pathname: string;
+}
+const { locale, pathname } = Astro.props;
+const t = ui[locale];
+const items = [
+  { key: "home", path: "/", Icon: House },
+  { key: "journey", path: "/journey", Icon: Route },
+  { key: "work", path: "/work", Icon: BriefcaseBusiness },
+  { key: "writing", path: "/writing", Icon: NotebookPen },
+  { key: "about", path: "/about", Icon: UserRound },
+] as const;
+const normalized =
+  locale === "vi" ? pathname.replace(/^\/vi/, "") || "/" : pathname;
+---
+
+<nav class="site-nav" aria-label="Primary navigation">
+  <div class="nav-links">
+    {
+      items.map(({ key, path, Icon }) => (
+        <a
+          href={pathFor(locale, path)}
+          class:list={{ active: normalized === path }}
+          aria-label={t.nav[key]}
+          aria-current={normalized === path ? "page" : undefined}
+        >
+          <Icon size={18} stroke-width={1.8} aria-hidden="true" />
+          <span class="nav-tooltip">{t.nav[key]}</span>
+        </a>
+      ))
+    }
+  </div>
+  <span class="nav-divider" aria-hidden="true"></span>
+  <a
+    class="locale-link"
+    href={otherLocalePath(locale, pathname)}
+    hreflang={locale === "en" ? "vi" : "en"}
+    aria-label={locale === "en" ? "Đổi sang Tiếng Việt" : "Switch to English"}
+  >
+    {locale === "en" ? "VI" : "EN"}
+  </a>
+</nav>

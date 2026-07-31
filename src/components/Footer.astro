@@ -1,0 +1,18 @@
+---
+import { ui, pathFor, type Locale } from "../lib/i18n";
+interface Props {
+  locale: Locale;
+}
+const { locale } = Astro.props;
+const t = ui[locale];
+---
+
+<footer class="site-footer">
+  <p>{t.footer}</p>
+  <div>
+    <a href={pathFor(locale, "/journey")}>{t.nav.journey}</a>
+    <a href={pathFor(locale, "/work")}>{t.nav.work}</a>
+    <a href={pathFor(locale, "/writing")}>{t.nav.writing}</a>
+  </div>
+  <p>© {new Date().getFullYear()} Nam V. Tran</p>
+</footer>

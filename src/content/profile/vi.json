@@ -1,0 +1,33 @@
+{
+  "locale": "vi",
+  "name": "Nam V. Tran",
+  "role": "Lập trình viên phần mềm",
+  "introduction": "Mình xây dựng phần mềm chỉn chu và ghi lại những bài học đã định hình cách mình làm việc.",
+  "biography": "[Hãy thay bằng câu chuyện cá nhân dài 3–5 câu: sự tò mò với phần mềm bắt đầu từ đâu, kiểu bài toán nào truyền cảm hứng cho bạn và góc nhìn của bạn đã thay đổi ra sao. Chỉ chia sẻ thông tin công khai, không bảo mật.]",
+  "values": [
+    {
+      "title": "Hiểu trước khi thay đổi",
+      "description": "Mình tách giả định khỏi bằng chứng và tìm thử nghiệm nhỏ nhất có giá trị."
+    },
+    {
+      "title": "Chịu trách nhiệm đến kết quả",
+      "description": "Kỹ thuật tốt kết nối quyết định công nghệ với trải nghiệm thực tế của người dùng."
+    },
+    {
+      "title": "Để lại dấu vết rõ ràng",
+      "description": "Mình coi trọng quyết định và tài liệu giúp người tiếp theo làm việc tự tin hơn."
+    }
+  ],
+  "interests": [
+    "Kỹ thuật sản phẩm",
+    "Kiến trúc giao diện phức tạp",
+    "Hiệu năng",
+    "Trải nghiệm lập trình viên"
+  ],
+  "links": {
+    "github": "https://github.com/",
+    "linkedin": "https://www.linkedin.com/",
+    "email": "hello@example.com"
+  },
+  "availability": "Sẵn lòng kết nối và chia sẻ kiến thức."
+}

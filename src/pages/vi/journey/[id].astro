@@ -1,0 +1,15 @@
+---
+import { getCollection } from "astro:content";
+import EntryPage from "../../../components/EntryPage.astro";
+export async function getStaticPaths() {
+  return (
+    await getCollection(
+      "journey",
+      ({ data }) => data.locale === "vi" && data.visibility === "public",
+    )
+  ).map((entry) => ({ params: { id: entry.id }, props: { entry } }));
+}
+const { entry } = Astro.props;
+---
+
+<EntryPage locale="vi" type="journey" {entry} />

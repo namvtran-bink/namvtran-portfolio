@@ -1,0 +1,269 @@
+---
+import {
+  ArrowUpRight,
+  CodeXml,
+  ContactRound,
+  Mail,
+  Sparkles,
+  Gauge,
+  Boxes,
+  BookOpenText,
+} from "@lucide/astro";
+import BaseLayout from "../layouts/BaseLayout.astro";
+import {
+  getProfile,
+  getPublicEntries,
+  getPublishedWriting,
+} from "../lib/content";
+import { pathFor, ui, type Locale } from "../lib/i18n";
+
+interface Props {
+  locale: Locale;
+}
+const { locale } = Astro.props;
+const t = ui[locale];
+const profile = await getProfile(locale);
+const journey = (await getPublicEntries("journey", locale)).slice(0, 2);
+const work = (await getPublicEntries("work", locale)).slice(0, 2);
+const writing = (await getPublishedWriting(locale)).slice(0, 2);
+const capabilities =
+  locale === "en"
+    ? [
+        {
+          title: "Product-minded engineering",
+          body: "Connecting implementation choices to the people and outcomes they serve.",
+          Icon: Sparkles,
+          tone: "orange",
+        },
+        {
+          title: "Complex interface systems",
+          body: "Making rich interactions understandable, responsive, and maintainable.",
+          Icon: Boxes,
+          tone: "lime",
+        },
+        {
+          title: "Performance with evidence",
+          body: "Measuring real behavior before choosing where and how to optimize.",
+          Icon: Gauge,
+          tone: "paper",
+        },
+      ]
+    : [
+        {
+          title: "Kỹ thuật gắn với sản phẩm",
+          body: "Kết nối lựa chọn triển khai với con người và kết quả mà sản phẩm phục vụ.",
+          Icon: Sparkles,
+          tone: "orange",
+        },
+        {
+          title: "Hệ thống giao diện phức tạp",
+          body: "Giúp tương tác phong phú trở nên dễ hiểu, nhanh và dễ bảo trì.",
+          Icon: Boxes,
+          tone: "lime",
+        },
+        {
+          title: "Hiệu năng có bằng chứng",
+          body: "Đo lường hành vi thực tế trước khi quyết định tối ưu ở đâu và bằng cách nào.",
+          Icon: Gauge,
+          tone: "paper",
+        },
+      ];
+---
+
+<BaseLayout {locale}>
+  <section class="hero section-shell reveal">
+    <aside class="identity-card">
+      <div class="monogram" aria-label="Profile image placeholder">
+        <span>NV</span><small
+          >{locale === "en" ? "YOUR PHOTO" : "ẢNH CỦA BẠN"}</small
+        >
+      </div>
+      <p class="identity-kicker">{profile.role}</p>
+      <h2>{profile.name}</h2>
+      <p class="prompt-copy">
+        {
+          locale === "en"
+            ? "Replace this monogram with an approved portrait when ready."
+            : "Thay chữ viết tắt bằng ảnh chân dung được phép sử dụng khi sẵn sàng."
+        }
+      </p>
+      <div class="socials" aria-label="Social links">
+        <a href={profile.links.github} aria-label="GitHub"
+          ><CodeXml aria-hidden="true" /></a
+        >
+        <a href={profile.links.linkedin} aria-label="LinkedIn"
+          ><ContactRound aria-hidden="true" /></a
+        >
+        <a href={`mailto:${profile.links.email}`} aria-label="Email"
+          ><Mail aria-hidden="true" /></a
+        >
+      </div>
+    </aside>
+    <div class="hero-copy">
+      <p class="eyebrow">{t.eyebrow}</p>
+      <h1>
+        {
+          t.heroTitle
+            .split("\n")
+            .map((line, index) => (
+              <span class:list={{ outline: index === 1 }}>{line}</span>
+            ))
+        }
+      </h1>
+      <p class="hero-intro">{profile.introduction}</p>
+      <div class="hero-actions">
+        <a class="button primary" href={pathFor(locale, "/journey")}
+          >{t.explore}<ArrowUpRight aria-hidden="true" /></a
+        >
+        <span>{profile.availability}</span>
+      </div>
+      <div class="interest-strip">
+        <p>{t.interests}</p>
+        <div>
+          {profile.interests.map((interest) => <span>{interest}</span>)}
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section-shell values-section reveal">
+    <div class="section-heading">
+      <p class="eyebrow">01</p><h2>{t.values}</h2>
+    </div>
+    <div class="values-grid">
+      {
+        profile.values.map((value, index) => (
+          <article>
+            <>
+              <span>0{index + 1}</span>
+              <h3>{value.title}</h3>
+              <p>{value.description}</p>
+            </>
+          </article>
+        ))
+      }
+    </div>
+  </section>
+
+  <section class="section-shell reveal">
+    <div class="section-heading">
+      <p class="eyebrow">02</p><h2>{t.capabilities}</h2>
+    </div>
+    <div class="capability-grid">
+      {
+        capabilities.map(({ title, body, Icon, tone }) => (
+          <article class={`capability-card ${tone}`}>
+            <>
+              <Icon size={30} stroke-width={1.7} aria-hidden="true" />
+              <h3>{title}</h3>
+              <p>{body}</p>
+              <ArrowUpRight class="corner-icon" aria-hidden="true" />
+            </>
+          </article>
+        ))
+      }
+    </div>
+  </section>
+
+  <section class="section-shell reveal">
+    <div class="section-heading split">
+      <div><p class="eyebrow">03</p><h2>{t.journey}</h2></div><p>
+        {t.journeyIntro}
+      </p>
+    </div>
+    <div class="journey-list">
+      {
+        journey.map((entry) => (
+          <a href={pathFor(locale, `/journey/${entry.id}`)}>
+            <>
+              <span>{entry.data.period}</span>
+              <div>
+                <>
+                  <h3>{entry.data.title}</h3>
+                  <p>{entry.data.summary}</p>
+                  <ul>
+                    {entry.data.growthThemes.map((theme) => (
+                      <li>{theme}</li>
+                    ))}
+                  </ul>
+                </>
+              </div>
+              <ArrowUpRight aria-hidden="true" />
+            </>
+          </a>
+        ))
+      }
+    </div>
+    <a class="text-link" href={pathFor(locale, "/journey")}
+      >{t.viewAll}<ArrowUpRight aria-hidden="true" /></a
+    >
+  </section>
+
+  <section class="section-shell reveal">
+    <div class="section-heading">
+      <p class="eyebrow">04</p><h2>{t.work}</h2>
+    </div>
+    <div class="work-grid">
+      {
+        work.map((entry, index) => (
+          <a
+            class:list={["work-card", index % 2 ? "lime" : "orange"]}
+            href={pathFor(locale, `/work/${entry.id}`)}
+          >
+            <>
+              <span class="placeholder-label">{t.placeholder}</span>
+              <h3>{entry.data.title}</h3>
+              <p>{entry.data.generalProblem}</p>
+              <div>
+                {entry.data.tags.map((tag) => (
+                  <span>{tag}</span>
+                ))}
+              </div>
+              <ArrowUpRight aria-hidden="true" />
+            </>
+          </a>
+        ))
+      }
+    </div>
+  </section>
+
+  <section class="section-shell reveal">
+    <div class="section-heading">
+      <p class="eyebrow">05</p><h2>{t.writing}</h2>
+    </div>
+    <div class="writing-list">
+      {
+        writing.map((entry) => (
+          <a href={pathFor(locale, `/writing/${entry.id}`)}>
+            <>
+              <BookOpenText aria-hidden="true" />
+              <div>
+                <>
+                  <p>
+                    {entry.data.publishedAt.toLocaleDateString(
+                      locale === "vi" ? "vi-VN" : "en-US",
+                      { dateStyle: "medium" },
+                    )}{" "}
+                    · {entry.data.readingTime} min
+                  </p>
+                  <h3>{entry.data.title}</h3>
+                  <span>{entry.data.description}</span>
+                </>
+              </div>
+              <ArrowUpRight aria-hidden="true" />
+            </>
+          </a>
+        ))
+      }
+    </div>
+  </section>
+
+  <section class="contact-section section-shell reveal">
+    <p class="eyebrow">06</p><h2>
+      {t.contact.split("\n").map((line) => <span>{line}</span>)}
+    </h2><p>{t.contactBody}</p>
+    <a class="button dark" href={`mailto:${profile.links.email}`}
+      >{t.email}<ArrowUpRight aria-hidden="true" /></a
+    >
+  </section>
+</BaseLayout>

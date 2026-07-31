@@ -1,0 +1,62 @@
+---
+import "@fontsource/poppins/400.css";
+import "@fontsource/poppins/600.css";
+import "@fontsource/poppins/700.css";
+import "../styles/global.css";
+import SiteNav from "../components/SiteNav.astro";
+import Footer from "../components/Footer.astro";
+import { pathFor, ui, type Locale } from "../lib/i18n";
+
+interface Props {
+  locale: Locale;
+  title?: string;
+  description?: string;
+}
+const { locale, title, description } = Astro.props;
+const t = ui[locale];
+const pageTitle = title
+  ? `${title} — Nam V. Tran`
+  : "Nam V. Tran — Software Developer";
+const pageDescription = description ?? t.heroBody;
+const pathname = Astro.url.pathname;
+const enPath =
+  locale === "en" ? pathname : pathname.replace(/^\/vi/, "") || "/";
+const viPath = locale === "vi" ? pathname : pathFor("vi", pathname);
+---
+
+<!doctype html>
+<html lang={locale}>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width" />
+    <meta name="description" content={pageDescription} />
+    <meta name="theme-color" content="#151312" />
+    <link rel="canonical" href={new URL(pathname, Astro.site)} />
+    <link rel="alternate" hreflang="en" href={new URL(enPath, Astro.site)} />
+    <link rel="alternate" hreflang="vi" href={new URL(viPath, Astro.site)} />
+    <link
+      rel="alternate"
+      hreflang="x-default"
+      href={new URL(enPath, Astro.site)}
+    />
+    <link
+      rel="alternate"
+      type="application/rss+xml"
+      title="Nam V. Tran — Writing"
+      href={pathFor(locale, "/rss.xml")}
+    />
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content={pageTitle} />
+    <meta property="og:description" content={pageDescription} />
+    <meta property="og:url" content={new URL(pathname, Astro.site)} />
+    <meta property="og:locale" content={locale === "en" ? "en_US" : "vi_VN"} />
+    <meta name="twitter:card" content="summary" />
+    <title>{pageTitle}</title>
+  </head>
+  <body>
+    <a class="skip-link" href="#content">{t.skip}</a>
+    <SiteNav {locale} {pathname} />
+    <main id="content"><slot /></main>
+    <Footer {locale} />
+  </body>
+</html>

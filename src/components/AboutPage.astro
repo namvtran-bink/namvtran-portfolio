@@ -1,0 +1,51 @@
+---
+import { ArrowUpRight } from "@lucide/astro";
+import BaseLayout from "../layouts/BaseLayout.astro";
+import { getProfile } from "../lib/content";
+import type { Locale } from "../lib/i18n";
+interface Props {
+  locale: Locale;
+}
+const { locale } = Astro.props;
+const profile = await getProfile(locale);
+const title = locale === "en" ? "ABOUT" : "GIỚI THIỆU";
+const privacyTitle =
+  locale === "en" ? "What belongs here" : "Những gì thuộc về nơi này";
+const privacyBody =
+  locale === "en"
+    ? "This portfolio records my own growth. It deliberately leaves out confidential company information, source code, internal architecture, customer data, private metrics, and unreleased work."
+    : "Portfolio này ghi lại sự trưởng thành của chính mình. Nội dung chủ động loại bỏ thông tin bảo mật của công ty, mã nguồn, kiến trúc nội bộ, dữ liệu khách hàng, số liệu riêng tư và công việc chưa phát hành.";
+---
+
+<BaseLayout {locale} title={title}>
+  <header class="page-hero section-shell reveal">
+    <p class="eyebrow">{profile.role}</p><h1>{title}</h1><p>
+      {profile.introduction}
+    </p>
+  </header>
+  <section class="about-grid section-shell reveal">
+    <div class="monogram large">
+      <span>NV</span><small
+        >{
+          locale === "en" ? "PORTRAIT PLACEHOLDER" : "VỊ TRÍ ẢNH CHÂN DUNG"
+        }</small
+      >
+    </div>
+    <article>
+      <p class="eyebrow">{locale === "en" ? "MY STORY" : "CÂU CHUYỆN"}</p><p
+        class="bio-prompt"
+      >
+        {profile.biography}
+      </p><a class="button primary" href={`mailto:${profile.links.email}`}
+        >{locale === "en" ? "Say hello" : "Kết nối"}<ArrowUpRight
+          aria-hidden="true"
+        /></a
+      >
+    </article>
+  </section>
+  <section class="privacy-card section-shell reveal">
+    <p class="eyebrow">
+      {locale === "en" ? "A CLEAR BOUNDARY" : "RANH GIỚI RÕ RÀNG"}
+    </p><h2>{privacyTitle}</h2><p>{privacyBody}</p>
+  </section>
+</BaseLayout>

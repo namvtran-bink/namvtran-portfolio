@@ -1,0 +1,94 @@
+---
+import { ArrowLeft } from "@lucide/astro";
+import { render, type CollectionEntry } from "astro:content";
+import BaseLayout from "../layouts/BaseLayout.astro";
+import { pathFor, ui, type Locale } from "../lib/i18n";
+
+interface Props {
+  locale: Locale;
+  type: "journey" | "work" | "writing";
+  entry:
+    | CollectionEntry<"journey">
+    | CollectionEntry<"work">
+    | CollectionEntry<"writing">;
+}
+const { locale, type, entry } = Astro.props;
+const t = ui[locale];
+const { Content } = await render(entry);
+type PageData = {
+  title: string;
+  tags: string[];
+  description: string;
+  role?: string;
+  reasoning?: string;
+  outcome?: string;
+};
+const pageData: PageData =
+  type === "journey"
+    ? {
+        title: entry.data.title,
+        tags: (entry.data as CollectionEntry<"journey">["data"]).growthThemes,
+        description: (entry.data as CollectionEntry<"journey">["data"]).summary,
+      }
+    : type === "work"
+      ? {
+          title: entry.data.title,
+          tags: (entry.data as CollectionEntry<"work">["data"]).tags,
+          description: (entry.data as CollectionEntry<"work">["data"])
+            .generalProblem,
+          role: (entry.data as CollectionEntry<"work">["data"]).role,
+          reasoning: (entry.data as CollectionEntry<"work">["data"]).reasoning,
+          outcome: (entry.data as CollectionEntry<"work">["data"]).outcome,
+        }
+      : {
+          title: entry.data.title,
+          tags: (entry.data as CollectionEntry<"writing">["data"]).tags,
+          description: (entry.data as CollectionEntry<"writing">["data"])
+            .description,
+        };
+---
+
+<BaseLayout {locale} title={pageData.title} description={pageData.description}>
+  <article class="entry-page section-shell reveal">
+    <a class="back-link" href={pathFor(locale, `/${type}`)}
+      ><ArrowLeft aria-hidden="true" />{t.nav[type]}</a
+    >
+    <header>
+      <p class="eyebrow">{type}</p><h1>{pageData.title}</h1><p>
+        {pageData.description}
+      </p><div class="tag-list">
+        {pageData.tags.map((tag) => <span>{tag}</span>)}
+      </div>
+    </header>
+    {
+      type === "work" && (
+        <section class="case-summary">
+          <>
+            <div>
+              <>
+                <span>01</span>
+                <h2>{locale === "en" ? "My role" : "Vai trò"}</h2>
+                <p>{pageData.role}</p>
+              </>
+            </div>
+            <div>
+              <>
+                <span>02</span>
+                <h2>{locale === "en" ? "Reasoning" : "Tư duy"}</h2>
+                <p>{pageData.reasoning}</p>
+              </>
+            </div>
+            <div>
+              <>
+                <span>03</span>
+                <h2>{locale === "en" ? "Outcome" : "Kết quả"}</h2>
+                <p>{pageData.outcome}</p>
+              </>
+            </div>
+          </>
+        </section>
+      )
+    }
+    <div class="prose"><Content /></div>
+  </article>
+</BaseLayout>
