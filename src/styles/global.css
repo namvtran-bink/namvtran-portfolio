@@ -177,43 +177,20 @@ svg {
   background: var(--paper);
   border-radius: var(--radius-card);
 }
-.monogram {
+.portrait-frame {
   position: relative;
-  display: grid;
-  place-items: center;
   min-height: 330px;
   overflow: hidden;
   border-radius: 12px;
-  color: var(--paper);
   background: var(--orange);
 }
-.monogram::before,
-.monogram::after {
-  content: "";
-  position: absolute;
-  border: 2px dashed rgba(21, 19, 18, 0.35);
-  border-radius: 50%;
-  width: 270px;
-  height: 270px;
-}
-.monogram::before {
-  top: -170px;
-  left: -130px;
-}
-.monogram::after {
-  bottom: -190px;
-  right: -100px;
-}
-.monogram span {
-  font-size: 86px;
-  font-weight: 700;
-  letter-spacing: -0.07em;
-}
-.monogram small {
-  position: absolute;
-  bottom: 16px;
-  font-size: 10px;
-  letter-spacing: 0.14em;
+.portrait-frame img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  min-height: inherit;
+  object-fit: cover;
+  object-position: 50% 35%;
 }
 .identity-kicker {
   margin-top: 24px;
@@ -711,7 +688,7 @@ main
   gap: 50px;
   align-items: center;
 }
-.monogram.large {
+.portrait-frame.large {
   min-height: 500px;
 }
 .about-grid article > .bio-prompt {
@@ -850,7 +827,7 @@ main
     gap: 30px;
     min-height: 620px;
   }
-  .monogram {
+  .portrait-frame {
     min-height: 275px;
   }
   .hero h1 {
@@ -900,7 +877,7 @@ main
   .identity-card {
     order: 2;
   }
-  .monogram {
+  .portrait-frame {
     min-height: 360px;
   }
   .hero-copy {
@@ -994,7 +971,7 @@ main
   .archive-card > svg {
     display: none;
   }
-  .monogram.large {
+  .portrait-frame.large {
     min-height: 400px;
   }
   .privacy-card {

@@ -31,6 +31,7 @@ const viPath = locale === "vi" ? pathname : pathFor("vi", pathname);
     <meta name="viewport" content="width=device-width" />
     <meta name="description" content={pageDescription} />
     <meta name="theme-color" content="#151312" />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
     <link rel="canonical" href={new URL(pathname, Astro.site)} />
     <link rel="alternate" hreflang="en" href={new URL(enPath, Astro.site)} />
     <link rel="alternate" hreflang="vi" href={new URL(viPath, Astro.site)} />

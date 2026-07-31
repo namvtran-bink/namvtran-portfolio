@@ -24,12 +24,16 @@ const privacyBody =
     </p>
   </header>
   <section class="about-grid section-shell reveal">
-    <div class="monogram large">
-      <span>NV</span><small
-        >{
-          locale === "en" ? "PORTRAIT PLACEHOLDER" : "VỊ TRÍ ẢNH CHÂN DUNG"
-        }</small
-      >
+    <div class="portrait-frame large">
+      <img
+        src="/avatar.jpeg"
+        alt={locale === "en"
+          ? "Nam V. Tran taking a mirror selfie"
+          : "Nam V. Tran chụp ảnh qua gương"}
+        width="512"
+        height="512"
+        loading="lazy"
+      />
     </div>
     <article>
       <p class="eyebrow">{locale === "en" ? "MY STORY" : "CÂU CHUYỆN"}</p><p

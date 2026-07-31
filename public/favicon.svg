@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128" role="img" aria-label="NVT clean terminal favicon concept">
+  <rect width="128" height="128" rx="28" fill="#151312"/>
+  <circle cx="24" cy="24" r="5" fill="#f46c38"/>
+  <path d="M37 24h67" stroke="#353130" stroke-width="5" stroke-linecap="round"/>
+  <path d="m18 57 11 9-11 9" fill="none" stroke="#c5ff41" stroke-width="6" stroke-linecap="square" stroke-linejoin="miter"/>
+  <path d="M40 83V49h7l11 21V49h7v34h-7L47 62v21h-7Z" fill="#f8f6f1"/>
+  <path d="m67 49 10 34h9l10-34h-8l-6.5 25-6.5-25h-8Z" fill="#f8f6f1"/>
+  <path d="M100 49h18v7h-5v27h-8V56h-5v-7Z" fill="#f8f6f1"/>
+  <rect x="106" y="93" width="12" height="5" fill="#f46c38"/>
+</svg>

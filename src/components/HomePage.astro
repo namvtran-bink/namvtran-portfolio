@@ -73,20 +73,20 @@ const capabilities =
 <BaseLayout {locale}>
   <section class="hero section-shell reveal">
     <aside class="identity-card">
-      <div class="monogram" aria-label="Profile image placeholder">
-        <span>NV</span><small
-          >{locale === "en" ? "YOUR PHOTO" : "ẢNH CỦA BẠN"}</small
-        >
+      <div class="portrait-frame">
+        <img
+          src="/avatar.jpeg"
+          alt={locale === "en"
+            ? "Nam V. Tran taking a mirror selfie"
+            : "Nam V. Tran chụp ảnh qua gương"}
+          width="512"
+          height="512"
+          loading="eager"
+          fetchpriority="high"
+        />
       </div>
       <p class="identity-kicker">{profile.role}</p>
       <h2>{profile.name}</h2>
-      <p class="prompt-copy">
-        {
-          locale === "en"
-            ? "Replace this monogram with an approved portrait when ready."
-            : "Thay chữ viết tắt bằng ảnh chân dung được phép sử dụng khi sẵn sàng."
-        }
-      </p>
       <div class="socials" aria-label="Social links">
         <a href={profile.links.github} aria-label="GitHub"
           ><CodeXml aria-hidden="true" /></a
